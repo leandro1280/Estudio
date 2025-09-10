@@ -72,54 +72,21 @@ h1, h2, h3, h4, h5, h6, .navbar-brand {
 .logo-container {
     width: 50px;
     height: 50px;
-    border: 2px solid var(--color-secondary);
-    border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: linear-gradient(145deg, #000000, #1a1a1a);
-    box-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
 }
 
-.logo-initial {
-    color: var(--color-secondary);
-    font-size: 1.8rem;
-    font-weight: bold;
-    font-family: 'Playfair Display', serif;
+.logo-img {
+    width: 100%;
+    height: auto;
+    filter: brightness(0) invert(1);
 }
 
-.logo-hero {
-    display: flex;
-    justify-content: center;
-}
-
-.logo-initial-large {
-    color: var(--color-secondary);
-    font-size: 4rem;
-    font-weight: bold;
-    font-family: 'Playfair Display', serif;
-    width: 100px;
-    height: 100px;
-    border: 3px solid var(--color-secondary);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: linear-gradient(145deg, #000000, #1a1a1a);
-    box-shadow: 0 0 20px rgba(212, 175, 55, 0.7);
-    animation: pulse 2s infinite;
-}
-
-@keyframes pulse {
-    0% {
-        box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.7);
-    }
-    70% {
-        box-shadow: 0 0 0 15px rgba(212, 175, 55, 0);
-    }
-    100% {
-        box-shadow: 0 0 0 0 rgba(212, 175, 55, 0);
-    }
+.logo-card-img {
+    max-width: 150px;
+    height: auto;
+    margin: 0 auto;
 }
 
 /* Hero Section */
@@ -214,7 +181,7 @@ h1, h2, h3, h4, h5, h6, .navbar-brand {
 }
 
 .card:hover {
-    transform: translateY(-5px);
+    transform: translateY(-5px) scale(1.03);
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
 }
 
@@ -224,6 +191,11 @@ h1, h2, h3, h4, h5, h6, .navbar-brand {
 
 .servicio-card .card-body i {
     color: var(--color-secondary);
+    transition: transform 0.3s ease;
+}
+
+.servicio-card:hover .card-body i {
+    transform: scale(1.2);
 }
 
 .servicio-card:hover {
@@ -256,11 +228,14 @@ footer h3 {
     color: var(--color-secondary);
 }
 
-/* Botones Fixed */
+footer .logo-img {
+    width: 40px;
+    height: auto;
+}
+
+/* Botones Fixed - WhatsApp más grande */
 .whatsapp-btn, .formulario-btn {
     position: fixed;
-    width: 60px;
-    height: 60px;
     bottom: 30px;
     border-radius: 50%;
     display: flex;
@@ -274,17 +249,21 @@ footer h3 {
 }
 
 .whatsapp-btn {
+    width: 70px;
+    height: 70px;
     right: 30px;
     background-color: #25D366;
 }
 
 .formulario-btn {
+    width: 60px;
+    height: 60px;
     left: 30px;
     background-color: var(--color-secondary);
 }
 
 .whatsapp-btn:hover, .formulario-btn:hover {
-    transform: scale(1.1);
+    transform: scale(1.15);
     color: white;
 }
 
@@ -303,17 +282,18 @@ footer h3 {
     }
     
     .whatsapp-btn, .formulario-btn {
-        width: 50px;
-        height: 50px;
         bottom: 20px;
-        font-size: 20px;
     }
     
     .whatsapp-btn {
+        width: 60px;
+        height: 60px;
         right: 20px;
     }
     
     .formulario-btn {
+        width: 50px;
+        height: 50px;
         left: 20px;
     }
     
@@ -321,14 +301,14 @@ footer h3 {
         width: 40px;
         height: 40px;
     }
-    
-    .logo-initial {
-        font-size: 1.5rem;
+}
+
+@media (max-width: 576px) {
+    .navbar-brand .brand-name {
+        font-size: 0.9rem;
     }
     
-    .logo-initial-large {
-        font-size: 3rem;
-        width: 80px;
-        height: 80px;
+    .navbar-brand .sub-brand {
+        font-size: 0.8rem;
     }
 }

@@ -103,28 +103,4 @@ document.addEventListener('DOMContentLoaded', function() {
     // Ejecutar al cargar y al hacer scroll
     window.addEventListener('load', animateOnScroll);
     window.addEventListener('scroll', animateOnScroll);
-    
-    // Efecto de tipo escritura para el título
-    const typeWriter = function() {
-        const titleElement = document.querySelector('.hero h1');
-        if (!titleElement) return;
-        
-        const originalText = titleElement.textContent;
-        titleElement.textContent = '';
-        let i = 0;
-        const speed = 100;
-        
-        function type() {
-            if (i < originalText.length) {
-                titleElement.textContent += originalText.charAt(i);
-                i++;
-                setTimeout(type, speed);
-            }
-        }
-        
-        type();
-    };
-    
-    // Ejecutar efecto de escritura
-    setTimeout(typeWriter, 500);
 });
