@@ -50,6 +50,16 @@ document.addEventListener('DOMContentLoaded', function() {
                 contactForm.reset();
                 submitBtn.disabled = false;
                 submitBtn.textContent = originalText;
+                
+                // Enviar a WhatsApp con el mensaje predefinido
+                const telefono = document.getElementById('telefono').value;
+                const asunto = document.getElementById('asunto').value;
+                
+                const whatsappMessage = `Hola, soy ${nombre}. Me contacto por: ${asunto}. Mi consulta: ${mensaje.substring(0, 100)}...`;
+                const whatsappUrl = `https://wa.me/5491112345678?text=${encodeURIComponent(whatsappMessage)}`;
+                
+                // Abrir WhatsApp en una nueva pestaña
+                window.open(whatsappUrl, '_blank');
             }, 1500);
         });
     }
@@ -93,4 +103,28 @@ document.addEventListener('DOMContentLoaded', function() {
     // Ejecutar al cargar y al hacer scroll
     window.addEventListener('load', animateOnScroll);
     window.addEventListener('scroll', animateOnScroll);
+    
+    // Efecto de tipo escritura para el título
+    const typeWriter = function() {
+        const titleElement = document.querySelector('.hero h1');
+        if (!titleElement) return;
+        
+        const originalText = titleElement.textContent;
+        titleElement.textContent = '';
+        let i = 0;
+        const speed = 100;
+        
+        function type() {
+            if (i < originalText.length) {
+                titleElement.textContent += originalText.charAt(i);
+                i++;
+                setTimeout(type, speed);
+            }
+        }
+        
+        type();
+    };
+    
+    // Ejecutar efecto de escritura
+    setTimeout(typeWriter, 500);
 });
