@@ -80,7 +80,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Animación de elementos al hacer scroll
     const animateOnScroll = function() {
-        const elements = document.querySelectorAll('.servicio-card, .card');
+        const elements = document.querySelectorAll('.servicio-card, .card, .enfoque-icon, .proceso-paso');
         
         elements.forEach(element => {
             const elementPosition = element.getBoundingClientRect().top;
@@ -94,7 +94,7 @@ document.addEventListener('DOMContentLoaded', function() {
     };
 
     // Inicializar opacidad y posición de elementos
-    document.querySelectorAll('.servicio-card, .card').forEach(element => {
+    document.querySelectorAll('.servicio-card, .card, .enfoque-icon, .proceso-paso').forEach(element => {
         element.style.opacity = 0;
         element.style.transform = 'translateY(20px)';
         element.style.transition = 'opacity 0.5s ease, transform 0.5s ease';

@@ -16,6 +16,10 @@ h1, h2, h3, h4, h5, h6, .navbar-brand {
     font-family: 'Playfair Display', serif;
 }
 
+.text-gold {
+    color: var(--color-secondary);
+}
+
 /* Navbar */
 .navbar {
     background-color: var(--color-primary) !important;
@@ -72,21 +76,41 @@ h1, h2, h3, h4, h5, h6, .navbar-brand {
 .logo-container {
     width: 50px;
     height: 50px;
+    border: 2px solid var(--color-secondary);
+    border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
+    background: linear-gradient(145deg, #000000, #1a1a1a);
+    box-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
 }
 
-.logo-img {
-    width: 100%;
-    height: auto;
-    filter: brightness(0) invert(1);
+.logo-initial {
+    color: var(--color-secondary);
+    font-size: 1.8rem;
+    font-weight: bold;
+    font-family: 'Playfair Display', serif;
 }
 
-.logo-card-img {
-    max-width: 150px;
-    height: auto;
-    margin: 0 auto;
+.logo-hero {
+    display: flex;
+    justify-content: center;
+}
+
+.logo-initial-large {
+    color: var(--color-secondary);
+    font-size: 4rem;
+    font-weight: bold;
+    font-family: 'Playfair Display', serif;
+    width: 100px;
+    height: 100px;
+    border: 3px solid var(--color-secondary);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(145deg, #000000, #1a1a1a);
+    box-shadow: 0 0 20px rgba(212, 175, 55, 0.7);
 }
 
 /* Hero Section */
@@ -202,6 +226,35 @@ h1, h2, h3, h4, h5, h6, .navbar-brand {
     border-left: 4px solid var(--color-primary);
 }
 
+/* Enfoque Section */
+.enfoque-icon {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background-color: var(--color-secondary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    font-size: 2rem;
+    color: var(--color-primary);
+}
+
+/* Proceso Section */
+.proceso-paso {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background-color: var(--color-secondary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--color-primary);
+}
+
 /* Formulario */
 #contacto {
     background-color: #f9f9f9;
@@ -224,13 +277,8 @@ footer {
     background-color: var(--color-primary) !important;
 }
 
-footer h3 {
+footer h3, footer h4 {
     color: var(--color-secondary);
-}
-
-footer .logo-img {
-    width: 40px;
-    height: auto;
 }
 
 /* Botones Fixed - WhatsApp más grande */
@@ -300,6 +348,16 @@ footer .logo-img {
     .logo-container {
         width: 40px;
         height: 40px;
+    }
+    
+    .logo-initial {
+        font-size: 1.5rem;
+    }
+    
+    .logo-initial-large {
+        font-size: 3rem;
+        width: 80px;
+        height: 80px;
     }
 }
 
