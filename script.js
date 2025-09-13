@@ -1,106 +1,163 @@
-// Esperar a que el DOM esté completamente cargado
+/* script.js */
+(() => {
+    'use strict';
+  
+    document.addEventListener('DOMContentLoaded', () => {
+      // -----------------------------
+      // Bootstrap ScrollSpy
+      // -----------------------------
+      const scrollSpy = bootstrap.ScrollSpy.getOrCreateInstance(document.body, {
+        target: '.navbar',
+        offset: 80
+      });
+  
+      // Refrescar ScrollSpy después de que carguen las imágenes (evita cálculos erróneos)
+      window.addEventListener('load', () => {
+        try { scrollSpy.refresh(); } catch (_) {}
+      });
+  
+      // -----------------------------
+      // Colapso del menú en mobile al hacer click en un enlace
+      // -----------------------------
+      const navbarCollapseEl = document.getElementById('navbarNav');
+      const bsCollapse = navbarCollapseEl
+        ? bootstrap.Collapse.getOrCreateInstance(navbarCollapseEl, { toggle: false })
+        : null;
+  
+      document.querySelectorAll('.navbar a.nav-link, .navbar .btn').forEach(a => {
+        a.addEventListener('click', () => {
+          if (!bsCollapse) return;
+          // Si el menú está abierto (en mobile), lo cerramos
+          if (navbarCollapseEl.classList.contains('show')) {
+            bsCollapse.hide();
+          }
+        });
+      });
+  
+      // -----------------------------
+      // Utilidad: obtener número de WhatsApp desde el botón flotante
+      // (para no hardcodear el número en varios lugares)
+      // -----------------------------
+      function extractWhatsAppNumber() {
+        const waBtn = document.querySelector('.whatsapp-btn');
+        if (!waBtn) return null;
+  
+        try {
+          const href = new URL(waBtn.getAttribute('href'), window.location.href);
+          // href.pathname suele ser: /5491112345678  (en https://wa.me/5491112345678)
+          const path = href.pathname.replace(/^\//, '');
+          const digits = path.replace(/\D/g, '');
+          return digits.length >= 8 ? digits : null;
+        } catch {
+          return null;
+        }
+      }
+  
+      const WA_NUMBER = extractWhatsAppNumber() || '5491112345678'; // fallback
+  
+      // -----------------------------
+      // Formulario -> abrir WhatsApp con mensaje
+      // -----------------------------
+      const form = document.getElementById('contactForm');
+      if (form) {
+        form.addEventListener('submit', (e) => {
+          e.preventDefault();
+  
+          // Validación nativa HTML5
+          if (!form.checkValidity()) {
+            form.reportValidity();
+            return;
+          }
+  
+          const nombre   = (document.getElementById('nombre')?.value || '').trim();
+          const email    = (document.getElementById('email')?.value || '').trim();
+          const telefono = (document.getElementById('telefono')?.value || '').trim();
+          const asuntoEl = document.getElementById('asunto');
+          const asunto   = (asuntoEl?.value || '').trim();
+          const asuntoTxt = asuntoEl?.selectedOptions?.[0]?.text?.trim() || asunto || 'Consulta';
+          const mensaje  = (document.getElementById('mensaje')?.value || '').trim();
+  
+          // Construimos texto legible (con saltos de línea)
+          const lines = [
+            `Hola, soy ${nombre}.`,
+            `Asunto: ${asuntoTxt}.`,
+            `Mensaje: ${mensaje}`
+          ];
+  
+          if (email)    lines.push(`Email: ${email}`);
+          if (telefono) lines.push(`Tel: ${telefono}`);
+  
+          const text = lines.join('\n');
+  
+          // URL de WhatsApp
+          const waURL = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(text)}`;
+  
+          // Intentamos abrir en nueva pestaña; si el navegador lo bloquea, redirigimos en la misma
+          const opened = window.open(waURL, '_blank', 'noopener');
+          if (!opened) {
+            window.location.href = waURL;
+          }
+        });
+      }
+  
+      // -----------------------------
+      // Enlaces internos con ancla: mejora sutil de UX
+      // (CSS ya tiene scroll-behavior: smooth; esto sólo asegura foco accesible)
+      // -----------------------------
+      document.querySelectorAll('a[href^="#"]').forEach(link => {
+        link.addEventListener('click', (ev) => {
+          const hash = link.getAttribute('href');
+          if (!hash || hash === '#') return; // dejamos pasar
+          const target = document.querySelector(hash);
+          if (!target) return;
+          // Evitamos interferir con el comportamiento por defecto de los navegadores
+          // sólo añadimos foco cuando termina el scroll
+          setTimeout(() => {
+            try { target.setAttribute('tabindex', '-1'); target.focus({ preventScroll: true }); } catch (_) {}
+          }, 300);
+        });
+      });
+    });
+
+    // Esperar a que el DOM esté completamente cargado
 document.addEventListener('DOMContentLoaded', function() {
-    // Smooth scrolling para enlaces de navegación
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
-            e.preventDefault();
-            
-            const targetId = this.getAttribute('href');
-            if (targetId === '#') return;
-            
-            const targetElement = document.querySelector(targetId);
-            if (targetElement) {
-                const navHeight = document.querySelector('.navbar').offsetHeight;
-                const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset - navHeight;
-                
-                window.scrollTo({
-                    top: targetPosition,
-                    behavior: 'smooth'
-                });
-            }
-        });
-    });
+    
+  // Smooth scrolling para enlaces de navegación
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+          e.preventDefault();
+          
+          const targetId = this.getAttribute('href');
+          if (targetId === '#') return;
+          
+          const targetElement = document.querySelector(targetId);
+          if (targetElement) {
+              // Altura del navbar para calcular el desplazamiento correcto
+              const navHeight = document.querySelector('.navbar').offsetHeight || 76;
+              const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset - navHeight;
+              
+              window.scrollTo({
+                  top: targetPosition,
+                  behavior: 'smooth'
+              });
+          }
+      });
+  });
 
-    // Manejo del formulario de contacto
-    const contactForm = document.getElementById('contactForm');
-    if (contactForm) {
-        contactForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            // Validación básica
-            const nombre = document.getElementById('nombre').value;
-            const email = document.getElementById('email').value;
-            const mensaje = document.getElementById('mensaje').value;
-            
-            if (!nombre || !email || !mensaje) {
-                alert('Por favor, complete todos los campos obligatorios.');
-                return;
-            }
-            
-            // Aquí normalmente se enviaría el formulario a un servidor
-            // Simulamos el envío con un timeout
-            const submitBtn = contactForm.querySelector('button[type="submit"]');
-            const originalText = submitBtn.textContent;
-            
-            submitBtn.disabled = true;
-            submitBtn.textContent = 'Enviando...';
-            
-            setTimeout(() => {
-                alert('¡Gracias por su consulta! Nos pondremos en contacto con usted a la brevedad.');
-                contactForm.reset();
-                submitBtn.disabled = false;
-                submitBtn.textContent = originalText;
-                
-                // Enviar a WhatsApp con el mensaje predefinido
-                const telefono = document.getElementById('telefono').value;
-                const asunto = document.getElementById('asunto').value;
-                
-                const whatsappMessage = `Hola, soy ${nombre}. Me contacto por: ${asunto}. Mi consulta: ${mensaje.substring(0, 100)}...`;
-                const whatsappUrl = `https://wa.me/5491112345678?text=${encodeURIComponent(whatsappMessage)}`;
-                
-                // Abrir WhatsApp en una nueva pestaña
-                window.open(whatsappUrl, '_blank');
-            }, 1500);
-        });
-    }
+  // Colapso del menú en mobile al hacer click en un enlace
+  const navbarCollapseEl = document.getElementById('navbarNav');
+  const bsCollapse = new bootstrap.Collapse(navbarCollapseEl, {
+      toggle: false
+  });
 
-    // Efecto de navbar al hacer scroll
-    const navbar = document.querySelector('.navbar');
-    if (navbar) {
-        window.addEventListener('scroll', function() {
-            if (window.scrollY > 50) {
-                navbar.style.padding = '10px 0';
-                navbar.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.1)';
-            } else {
-                navbar.style.padding = '';
-                navbar.style.boxShadow = '';
-            }
-        });
-    }
+  document.querySelectorAll('#navbarNav .nav-link').forEach(function(link) {
+      link.addEventListener('click', function() {
+          if (navbarCollapseEl.classList.contains('show')) {
+              bsCollapse.hide();
+          }
+      });
+  });
 
-    // Animación de elementos al hacer scroll
-    const animateOnScroll = function() {
-        const elements = document.querySelectorAll('.servicio-card, .card, .enfoque-icon, .proceso-paso');
-        
-        elements.forEach(element => {
-            const elementPosition = element.getBoundingClientRect().top;
-            const screenPosition = window.innerHeight / 1.3;
-            
-            if (elementPosition < screenPosition) {
-                element.style.opacity = 1;
-                element.style.transform = 'translateY(0)';
-            }
-        });
-    };
-
-    // Inicializar opacidad y posición de elementos
-    document.querySelectorAll('.servicio-card, .card, .enfoque-icon, .proceso-paso').forEach(element => {
-        element.style.opacity = 0;
-        element.style.transform = 'translateY(20px)';
-        element.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
-    });
-
-    // Ejecutar al cargar y al hacer scroll
-    window.addEventListener('load', animateOnScroll);
-    window.addEventListener('scroll', animateOnScroll);
 });
+  })();
+  
