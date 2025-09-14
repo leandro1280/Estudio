@@ -23,7 +23,6 @@ h1, h2, h3, h4, h5, h6, .navbar-brand {
 .navbar {
     background-color: var(--color-primary) !important;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    transition: all 0.3s ease;
     padding: 10px 0;
 }
 
@@ -93,15 +92,19 @@ h1, h2, h3, h4, h5, h6, .navbar-brand {
 
 /* Hero Section */
 .hero {
-    background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://images.unsplash.com/photo-1589391886645-d51941baf7fb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1770&q=80');
+    background: linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.75)), url('https://images.unsplash.com/photo-1589391886645-d51941baf7fb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1770&q=80');
     background-size: cover;
     background-position: center;
     color: white;
-    padding: 100px 0;
+    padding: 120px 0;
+}
+
+.hero h1 {
+    color: var(--color-secondary);
 }
 
 .hero .sub-title {
-    color: var(--color-secondary);
+    color: var(--color-light);
     font-weight: 500;
     border-bottom: 2px solid var(--color-secondary);
     display: inline-block;
@@ -194,47 +197,24 @@ h1, h2, h3, h4, h5, h6, .navbar-brand {
     box-shadow: 0 0 0 0.25rem rgba(212, 175, 55, 0.25);
 }
 
-#form-message {
-    padding: 1rem;
-    border-radius: 5px;
-    text-align: center;
-    font-weight: 500;
-    display: none;
-}
-
-#form-message.success {
-    background-color: #d1e7dd;
-    color: #0f5132;
-    border: 1px solid #badbcc;
-    display: block;
-}
-
-#form-message.error {
-    background-color: #f8d7da;
-    color: #842029;
-    border: 1px solid #f5c2c7;
-    display: block;
-}
-
 /* Footer */
 footer {
-    /* CORRECCIÓN: Unificamos el color con el navbar */
-    background-color: #000000 !important;}
+    background-color: var(--color-primary) !important;
+}
 
-/* CORRECCIÓN: Hacemos que la "V" del footer sea idéntica a la del navbar */
 footer .logo-initial {
     width: 50px;
     height: 50px;
     border: 2px solid var(--color-secondary);
     border-radius: 50%;
-    display: inline-flex; /* Usamos inline-flex para que se comporte como un bloque pero en línea */
+    display: inline-flex;
     align-items: center;
     justify-content: center;
-    background: linear-gradient(145deg, #000000, #000000);
+    background: linear-gradient(145deg, #000000, #1a1a1a);
     box-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
 }
 
-footer h3, footer h4 {
+footer h3, footer h4, footer .h5, footer .h6 {
     color: var(--color-secondary);
 }
 
@@ -262,16 +242,65 @@ footer h3, footer h4 {
     color: white;
 }
 
-/* Responsive */
-@media (max-width: 768px) {
-    .hero {
-        padding: 80px 0;
-    }
-    
+
+/*
+==============================================
+===== SECCIÓN RESPONSIVE PARA MÓVILES =====
+==============================================
+*/
+
+/* Para tablets y móviles grandes (hasta 991px) */
+@media (max-width: 991.98px) {
     .hero h1 {
-        font-size: 2.5rem;
+        font-size: 2.8rem; /* Reducimos el título principal */
+    }
+}
+
+
+/* Para móviles (hasta 767px) */
+@media (max-width: 767.98px) {
+    /* Ajustamos el padding superior del body para el navbar colapsado */
+    body {
+        padding-top: 70px;
+    }
+
+    /* Reducimos el espaciado del Hero para que no sea tan grande en móviles */
+    .hero {
+        padding: 80px 15px;
     }
     
+    /* Ajustamos el tamaño de los títulos del Hero para que no se desborden */
+    .hero h1 {
+        font-size: 2.2rem;
+        line-height: 1.2; /* Mejora el espaciado entre líneas si el título se corta */
+    }
+
+    .hero h2 {
+        font-size: 1.2rem;
+    }
+
+    .hero .lead {
+        font-size: 1rem;
+    }
+    
+    /* Hacemos los botones un poco más pequeños */
+    .hero .btn {
+        padding: 10px 20px;
+        font-size: 0.9rem;
+    }
+    
+    /* Títulos de sección más pequeños */
+    .section-title {
+        font-size: 1.8rem;
+    }
+
+    /* Ajustamos la línea decorativa de los títulos */
+    .section-title::after {
+        width: 60px;
+        height: 2px;
+    }
+    
+    /* Botón de WhatsApp más pequeño y accesible */
     .whatsapp-btn {
         width: 60px;
         height: 60px;
@@ -280,6 +309,23 @@ footer h3, footer h4 {
     }
 }
 
-footer {
-    background-color: #000000 !important;
+/* Para móviles muy pequeños (hasta 576px) */
+@media (max-width: 576px) {
+    /* Ajustamos el tamaño del logo y texto en el navbar */
+    .navbar-brand .brand-name {
+        font-size: 0.8rem;
+    }
+    
+    .navbar-brand .sub-brand {
+        font-size: 0.7rem;
+    }
+
+    .logo-container {
+        width: 45px;
+        height: 45px;
+    }
+
+    .logo-initial {
+        font-size: 1.6rem;
+    }
 }
